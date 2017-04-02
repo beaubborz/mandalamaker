@@ -1,0 +1,28 @@
+<html>
+<head>
+  <title>Mandala Maker</title>
+  <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+  <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+  <script src="js/slices.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+  <h1>Mandala Maker</h1>
+  <div id='main'>
+      <div id='slices' class='sliceList'>
+        <div class='sliceItem' id='AddSliceButton' onClick = 'addSlice();'><div class='icon'></div>Add Slice</div>
+      </div>
+      <canvas id='canvas'></canvas>
+      <div id = 'tools'></div>
+      <div id='buttons'>
+        <button>Save</button>
+        <button>Load</button>
+        <div id='export'>
+          Width: <input type=number id = 'width'>
+          Height: <input type=number id = 'height'>
+          <button>Export</button>
+       </div>
+      </div>
+  </div>
+</body>
+</html>
