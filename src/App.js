@@ -2,18 +2,34 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Slice from './Components/Slice/Slice';
+import sliceModel from './Models/SliceModel';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
+      sliceKey: 0, // Generate a unique key ID for slices
       slices: [],
     };
   }
 
   addSlice() {
-    const newSlices = this.state.slices.concat([{key: this.state.slices.length}]);
-    this.setState({slices: newSlices});
+    const sliceKey = this.state.sliceKey + 1;
+    const slices = [...this.state.slices, sliceModel(sliceKey)];
+
+    this.setState({
+      sliceKey,
+      slices
+    });
+  }
+
+  onDividerChanged(idx, divider) {
+    let newSlice = Object.create({}, this.state.slices[idx]);
+    newSlice.divider = divider;
+    const slices = [...this.state.slices.slice(0, idx), newSlice, ...this.state.slices.slice(idx + 1)];
+    this.setState({
+      slices
+    });
   }
 
   render() {
@@ -26,9 +42,9 @@ class App extends Component {
 
         <div className="container">
           <div className="sliceList col-3">
-          {console.log(this.state.slices)}
-            {this.state.slices.map((elem) => {
-              return (<Slice key={this.key} />);
+            {this.state.slices.map((elem, idx) => {
+              console.log(elem);
+              return (<Slice key={elem.key} index={idx} sliceModel={elem} onDividerChanged={this.onDividerChanged.bind(this)} />);
             })}
             <button onClick={this.addSlice.bind(this)}>Click me buddy!</button>
           </div>

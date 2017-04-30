@@ -3,3 +3,19 @@
  border: 1px solid black;
  background: yellow;
 }
+
+.slice button
+{
+width: 25px;
+height: 25px;
+}
+
+.showhide.shown
+{
+background-image: url("../../../public/showhide.png");
+}
+
+.showhide.hidden
+{
+background-image: url("../../../public/showhide_hide.png");
+}
