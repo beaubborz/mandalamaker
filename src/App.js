@@ -24,7 +24,7 @@ class App extends Component {
   }
 
   onDividerChanged(idx, divider) {
-    let newSlice = Object.create({}, this.state.slices[idx]);
+    let newSlice = Object.assign({}, this.state.slices[idx]);
     newSlice.divider = divider;
     const slices = [...this.state.slices.slice(0, idx), newSlice, ...this.state.slices.slice(idx + 1)];
     this.setState({
@@ -43,7 +43,6 @@ class App extends Component {
         <div className="container">
           <div className="sliceList col-3">
             {this.state.slices.map((elem, idx) => {
-              console.log(elem);
               return (<Slice key={elem.key} index={idx} sliceModel={elem} onDividerChanged={this.onDividerChanged.bind(this)} />);
             })}
             <button onClick={this.addSlice.bind(this)}>Click me buddy!</button>
