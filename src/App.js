@@ -6,12 +6,14 @@ import Slice from './Components/Slice/Slice';
 class App extends Component {
   constructor() {
     super();
-    this.state = {slices: []};
+    this.state = {
+      slices: [],
+    };
   }
 
   addSlice() {
-    const slices = this.state.slices.push(new Slice());
-    this.setState({slices});
+    const newSlices = this.state.slices.concat([{key: this.state.slices.length}]);
+    this.setState({slices: newSlices});
   }
 
   render() {
@@ -21,13 +23,22 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Mandala maker</h2>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <div id='slices'>
-        {this.state.slices}
+
+        <div className="container">
+          <div className="sliceList col-3">
+          {console.log(this.state.slices)}
+            {this.state.slices.map((elem) => {
+              return (<Slice key={this.key} />);
+            })}
+            <button onClick={this.addSlice.bind(this)}>Click me buddy!</button>
+          </div>
+          <div className="canvas col-6">
+          canvas
+          </div>
+          <div className="toolbox col-3">
+            toolbox
+          </div>
         </div>
-        <button onClick={this.addSlice.bind(this)}>Click me buddy!</button>
       </div>
     );
   }

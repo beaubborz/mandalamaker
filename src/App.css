@@ -22,3 +22,33 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.container
+{
+  max-width: 1024px;
+  margin: auto;
+  margin-top:20px;
+}
+
+.sliceList
+{
+  width:20%;
+  display:inline-block;
+  background-color: #121212;
+  float:left;
+}
+
+.canvas
+{
+  width:60%;
+  display:inline-block;
+  background-color: red;
+}
+
+.toolbox
+{
+  width:20%;
+  display:inline-block;
+  background-color: blue;
+  float:right;
+}
