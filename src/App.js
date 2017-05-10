@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Slice from './Components/Slice/Slice';
 import sliceModel from './Models/SliceModel';
+import Preview from './Components/Preview/Preview';
 
 class App extends Component {
   constructor() {
@@ -41,16 +42,16 @@ class App extends Component {
         </div>
 
         <div className="container">
-          <div className="sliceList col-3">
-            {this.state.slices.map((elem, idx) => {
-              return (<Slice key={elem.key} index={idx} sliceModel={elem} onDividerChanged={this.onDividerChanged.bind(this)} />);
-            })}
-            <button onClick={this.addSlice.bind(this)}>Click me buddy!</button>
+          <div className="sliceList">
+            <div>
+              {this.state.slices.map((elem, idx) => {
+                return (<Slice key={elem.key} index={idx} sliceModel={elem} onDividerChanged={this.onDividerChanged.bind(this)} />);
+              })}
+            </div>
+            <button onClick={this.addSlice.bind(this)}>Add a slice</button>
           </div>
-          <div className="canvas col-6">
-          canvas
-          </div>
-          <div className="toolbox col-3">
+          <Preview />
+          <div className="toolbox">
             toolbox
           </div>
         </div>

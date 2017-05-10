@@ -2,20 +2,32 @@
  padding: 5px;
  border: 1px solid black;
  background: yellow;
+ text-align: left;
+ padding: 10px;
 }
 
-.slice button
-{
+.slice h3 {
+ margin-top: 0;
+}
+
+.slice button {
 width: 25px;
 height: 25px;
+margin: 3px;
 }
 
-.showhide.shown
-{
+.slice .buttons {
+  margin-top: 10px;
+}
+
+.showhide.shown {
 background-image: url("../../../public/showhide.png");
 }
 
-.showhide.hidden
-{
+.showhide.hidden {
 background-image: url("../../../public/showhide_hide.png");
+}
+
+.divider {
+  width: 30px;
 }
