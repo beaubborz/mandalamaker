@@ -11,6 +11,14 @@ class Slice extends Component {
     this.props.onSetEditing(this.props.index);
   }
 
+  onToggleView() {
+    this.props.onToggleView(this.props.index);
+  }
+
+  onRemoveSlice() {
+    this.props.onRemoveSlice(this.props.index);
+  }
+
   render() {
     return (
       <div className={"slice " + (this.props.sliceModel.isEditing ? "active" : "")}>
@@ -20,9 +28,9 @@ class Slice extends Component {
           <input type="number" className="divider" defaultValue={this.props.sliceModel.divider} onChange={this.onDividerChanged.bind(this)} />
         </div>
         <div className="buttons">
-          <button className={"showhide " + (this.props.sliceModel.isShown ? "shown" : "hidden")} />
+          <button className={"showhide " + (this.props.sliceModel.isShown ? "shown" : "hidden")}  onClick={this.onToggleView.bind(this)} />
           <button className="edit" onClick={this.onSetEditing.bind(this)} />
-          <button className="remove" />
+          <button className="remove" onClick={this.onRemoveSlice.bind(this)} />
         </div>
       </div>
     );

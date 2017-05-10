@@ -34,14 +34,41 @@ class App extends Component {
   }
 
   onSetEditing(editIndex) {
-    debugger;
     let slices = [];
     this.state.slices.forEach((sliceModel, index) => {
       let newSlice = SliceModel.clone(sliceModel);
-      newSlice.isEditing = (index === editIndex);
+
+      if(index === editIndex) {
+        newSlice.isEditing = true;
+        newSlice.isShown = true;
+      }
+      else {
+        newSlice.isEditing = false;
+      }
       slices.push(newSlice);
     });
 
+    this.setState({
+      slices
+    });
+  }
+
+  onToggleView(viewIndex) {
+    let slices = [];
+    this.state.slices.forEach((sliceModel, index) => {
+      let newSlice = SliceModel.clone(sliceModel);
+      if (index === viewIndex && !sliceModel.isEditing)
+        newSlice.isShown = !newSlice.isShown;
+      slices.push(newSlice);
+    });
+
+    this.setState({
+      slices
+    });
+  }
+
+  onRemoveSlice(idx) {
+    const slices = [...this.state.slices.slice(0, idx), ...this.state.slices.slice(idx + 1)];
     this.setState({
       slices
     });
@@ -61,7 +88,9 @@ class App extends Component {
               {this.state.slices.map((elem, idx) => {
                 return (<Slice key={elem.key} index={idx} sliceModel={elem}
                           onDividerChanged={this.onDividerChanged.bind(this)}
-                          onSetEditing={this.onSetEditing.bind(this)} />);
+                          onToggleView={this.onToggleView.bind(this)}
+                          onSetEditing={this.onSetEditing.bind(this)}
+                          onRemoveSlice={this.onRemoveSlice.bind(this)} />);
               })}
             </div>
             <button onClick={this.addSlice.bind(this)}>Add a slice</button>
