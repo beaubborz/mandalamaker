@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Slice from './Components/Slice/Slice';
-import sliceModel from './Models/SliceModel';
+import SliceModel from './Models/SliceModel';
 import Preview from './Components/Preview/Preview';
 
 class App extends Component {
@@ -16,7 +16,7 @@ class App extends Component {
 
   addSlice() {
     const sliceKey = this.state.sliceKey + 1;
-    const slices = [...this.state.slices, sliceModel(sliceKey)];
+    const slices = [...this.state.slices, SliceModel.create(sliceKey)];
 
     this.setState({
       sliceKey,
@@ -28,6 +28,20 @@ class App extends Component {
     let newSlice = Object.assign({}, this.state.slices[idx]);
     newSlice.divider = divider;
     const slices = [...this.state.slices.slice(0, idx), newSlice, ...this.state.slices.slice(idx + 1)];
+    this.setState({
+      slices
+    });
+  }
+
+  onSetEditing(editIndex) {
+    debugger;
+    let slices = [];
+    this.state.slices.forEach((sliceModel, index) => {
+      let newSlice = SliceModel.clone(sliceModel);
+      newSlice.isEditing = (index === editIndex);
+      slices.push(newSlice);
+    });
+
     this.setState({
       slices
     });
@@ -45,7 +59,9 @@ class App extends Component {
           <div className="sliceList">
             <div>
               {this.state.slices.map((elem, idx) => {
-                return (<Slice key={elem.key} index={idx} sliceModel={elem} onDividerChanged={this.onDividerChanged.bind(this)} />);
+                return (<Slice key={elem.key} index={idx} sliceModel={elem}
+                          onDividerChanged={this.onDividerChanged.bind(this)}
+                          onSetEditing={this.onSetEditing.bind(this)} />);
               })}
             </div>
             <button onClick={this.addSlice.bind(this)}>Add a slice</button>

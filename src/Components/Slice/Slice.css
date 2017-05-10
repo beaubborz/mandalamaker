@@ -1,9 +1,13 @@
 .slice {
  padding: 5px;
  border: 1px solid black;
- background: yellow;
  text-align: left;
  padding: 10px;
+ background: #F2F2F2;
+}
+
+.slice.active {
+  background: yellow;
 }
 
 .slice h3 {
@@ -26,6 +30,15 @@ background-image: url("../../../public/showhide.png");
 
 .showhide.hidden {
 background-image: url("../../../public/showhide_hide.png");
+}
+
+
+.edit {
+background-image: url("../../../public/edit.png");
+}
+
+.remove {
+background-image: url("../../../public/remove.png");
 }
 
 .divider {
