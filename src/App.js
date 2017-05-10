@@ -11,6 +11,7 @@ class App extends Component {
     this.state = {
       sliceKey: 0, // Generate a unique key ID for slices
       slices: [],
+      activeSlice: {},
     };
   }
 
@@ -35,12 +36,14 @@ class App extends Component {
 
   onSetEditing(editIndex) {
     let slices = [];
+    let activeSlice = {};
     this.state.slices.forEach((sliceModel, index) => {
       let newSlice = SliceModel.clone(sliceModel);
 
       if(index === editIndex) {
-        newSlice.isEditing = true;
+        newSlice.isEditing = !newSlice.isEditing;
         newSlice.isShown = true;
+        activeSlice = newSlice;
       }
       else {
         newSlice.isEditing = false;
@@ -49,7 +52,8 @@ class App extends Component {
     });
 
     this.setState({
-      slices
+      slices,
+      activeSlice
     });
   }
 
@@ -95,7 +99,7 @@ class App extends Component {
             </div>
             <button onClick={this.addSlice.bind(this)}>Add a slice</button>
           </div>
-          <Preview />
+          <Preview activeSlice={this.state.activeSlice} />
           <div className="toolbox">
             toolbox
           </div>

@@ -4,7 +4,7 @@ const SliceModel =
   create: (key, divider = 1, isEditing = false, isShown = true) => {
     return {
       key,
-      divider,
+      divider: Math.min(1, divider), // Cannot go lower than 1 to prevent division by zero
       isEditing,
       isShown
     };

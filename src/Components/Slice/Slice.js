@@ -25,7 +25,7 @@ class Slice extends Component {
         <h3>Slice {this.props.index + 1}</h3>
         <div>
           <span>Divider: </span>
-          <input type="number" className="divider" defaultValue={this.props.sliceModel.divider} onChange={this.onDividerChanged.bind(this)} />
+          <input type="number" className="divider" min="1" defaultValue={this.props.sliceModel.divider} onChange={this.onDividerChanged.bind(this)} />
         </div>
         <div className="buttons">
           <button className={"showhide " + (this.props.sliceModel.isShown ? "shown" : "hidden")}  onClick={this.onToggleView.bind(this)} />
