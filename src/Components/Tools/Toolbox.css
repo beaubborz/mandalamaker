@@ -1,0 +1,21 @@
+.Toolbox {
+  width:20%;
+  display:inline-block;
+  background-color: #AAAAAA;
+  float:left;
+  text-align: left;
+}
+
+.Tools>button {
+  width: 25px;
+  height: 25px;
+  margin: 3px;
+}
+
+.Tools>button.active {
+  background-color: yellow;
+}
+
+#LineTool {
+  background-image: url("../../../public/LineTool.png");
+}

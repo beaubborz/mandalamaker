@@ -66,6 +66,10 @@ class Preview extends Component {
   adjustZoom(event) {
     let camera = CameraModel.clone(this.state.camera);
     camera.zoom += ((event.deltaY < 0 ? 1 : -1) * ZOOM_SPEED);
+    // Cap zoom level to 100%. It should not get smaller than that.
+    if(camera.zoom < 100)
+      camera.zoom = 100;
+      // TODO: change x and y to move camera based on the location of the mouse when scrolling.
     this.setState({
       camera
     });
@@ -73,7 +77,8 @@ class Preview extends Component {
 
   render() {
     return (
-      <canvas ref="canvas" width={SIZE} height={SIZE} style={{width:SIZE, height:SIZE}} onWheel={this.adjustZoom.bind(this)}></canvas>
+      <canvas ref="canvas" width={SIZE} height={SIZE} style={{width:SIZE, height:SIZE}}
+      onWheel={this.adjustZoom.bind(this)}></canvas>
     );
   }
 
