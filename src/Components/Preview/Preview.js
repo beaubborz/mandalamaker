@@ -1,11 +1,22 @@
 import React, { Component } from 'react';
+import CameraModel from '../../Models/CameraModel';
 
 // The width and height of the canvas (Resolution, not actual size on the page)
-const SIZE = 1000;
+const SIZE = 600;
 // The minimum radius length for which the cirle completely fills the canvas
 const RADIUS = Math.sqrt((SIZE*SIZE) + (SIZE*SIZE));
 
+// number of zoom percentage level each tick of wheel is worth
+const ZOOM_SPEED = 10;
+
 class Preview extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      camera: CameraModel.create()
+    };
+  }
 
   componentDidMount() {
       this.updateCanvas();
@@ -23,12 +34,12 @@ class Preview extends Component {
       ctx.strokeRect(0,0, SIZE, SIZE);
 
       this.drawEditableAreaOverlay(ctx);
+      this.drawZoomStats(ctx);
   }
 
     // This function will draw a gray overlay to identify the area in which the user can draw.
   drawEditableAreaOverlay(ctx) {
     // do not draw any area if we are not editing at all.
-    debugger;
     if(this.props.activeSlice === {})
       return;
     // if divider is 1, there is no area to draw.
@@ -43,21 +54,26 @@ class Preview extends Component {
     ctx.fill();
   }
 
-   // This function checks if the x and y passed in parameter are inside the editable area
-  pointIsInEditableArea(x, y) {
-    let slice = this.props.activeSlice;
+  // This function shows the zoom stats in the bottom right corner of the canvas
+  drawZoomStats(ctx) {
+    const fontSize = 15;
+    ctx.font = fontSize + "px Arial";
+    const zoomStats = "X: " + this.state.camera.x + " Y: " + this.state.camera.y + " Zoom: " + (this.state.camera.zoom) + "%";
+    ctx.fillStyle = 'black';
+    ctx.fillText(zoomStats, SIZE - (fontSize/2 * zoomStats.length) ,SIZE - fontSize);
+  }
 
-    // Point is never in editable area if we are not editing at all
-    if(!slice.isEditing)
-      return false;
-
-    // TODO: replace with actual angle management with divider from the active slice
-    return (x <= y);
+  adjustZoom(event) {
+    let camera = CameraModel.clone(this.state.camera);
+    camera.zoom += ((event.deltaY < 0 ? 1 : -1) * ZOOM_SPEED);
+    this.setState({
+      camera
+    });
   }
 
   render() {
     return (
-      <canvas ref="canvas" width={SIZE} height={SIZE}></canvas>
+      <canvas ref="canvas" width={SIZE} height={SIZE} style={{width:SIZE, height:SIZE}} onWheel={this.adjustZoom.bind(this)}></canvas>
     );
   }
 
