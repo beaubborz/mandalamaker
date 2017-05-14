@@ -48,16 +48,6 @@ background-color: #AAAAAA;
 
 canvas
 {
-  width: 66vh;
-  height: 66vh;
   margin: 0px 2px 0px 2px;
-  float:left;
-}
-
-.toolbox
-{
-  width:20%;
-  display:inline-block;
-  background-color: blue;
   float:left;
 }

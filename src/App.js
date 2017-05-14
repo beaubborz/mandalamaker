@@ -4,23 +4,23 @@ import './App.css';
 import Slice from './Components/Slice/Slice';
 import SliceModel from './Models/SliceModel';
 import Preview from './Components/Preview/Preview';
+import Toolbox from './Components/Tools/Toolbox';
+
+let sliceKey = 0;
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      sliceKey: 0, // Generate a unique key ID for slices
       slices: [],
       activeSliceIndex: null,
     };
   }
 
   addSlice() {
-    const sliceKey = this.state.sliceKey + 1;
-    const slices = [...this.state.slices, SliceModel.create(sliceKey)];
+    const slices = [...this.state.slices, SliceModel.create(sliceKey++)];
 
     this.setState({
-      sliceKey,
       slices
     });
   }
@@ -95,9 +95,7 @@ class App extends Component {
             <button onClick={this.addSlice.bind(this)}>Add a slice</button>
           </div>
           <Preview activeSlice={this.state.activeSliceIndex !== null ? this.state.slices[this.state.activeSliceIndex] : {}} />
-          <div className="toolbox">
-            toolbox
-          </div>
+          <Toolbox />
         </div>
       </div>
     );
