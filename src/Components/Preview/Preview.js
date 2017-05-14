@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 
-const SIZE = 200;
+// The width and height of the canvas (Resolution, not actual size on the page)
+const SIZE = 1000;
+// The minimum radius length for which the cirle completely fills the canvas
+const RADIUS = Math.sqrt((SIZE*SIZE) + (SIZE*SIZE));
 
 class Preview extends Component {
 
@@ -25,14 +28,18 @@ class Preview extends Component {
     // This function will draw a gray overlay to identify the area in which the user can draw.
   drawEditableAreaOverlay(ctx) {
     // do not draw any area if we are not editing at all.
-    if(!this.props.activeSlice.isEditing)
+    if(this.props.activeSlice === {})
+      return;
+    // if divider is 1, there is no area to draw.
+    if(this.props.activeSlice.divider <= 1)
       return;
 
     ctx.fillStyle = 'rgba(0,0,0,0.5)';
-    for(let i=0; i<SIZE;i++)
-      for(let j=0; j<SIZE; j++)
-        if(this.pointIsInEditableArea(i, j))
-          ctx.fillRect(i, j, 1, 1);
+    ctx.beginPath();
+    ctx.moveTo(SIZE/2, SIZE/2);
+    ctx.lineTo(SIZE/2, SIZE/2 - RADIUS);
+    ctx.arc(SIZE/2, SIZE/2, RADIUS, 1.5*Math.PI, (2*Math.PI/this.props.activeSlice.divider) - (Math.PI/2), true);
+    ctx.fill();
   }
 
    // This function checks if the x and y passed in parameter are inside the editable area

@@ -11,7 +11,7 @@ class App extends Component {
     this.state = {
       sliceKey: 0, // Generate a unique key ID for slices
       slices: [],
-      activeSlice: {},
+      activeSliceIndex: null,
     };
   }
 
@@ -26,34 +26,17 @@ class App extends Component {
   }
 
   onDividerChanged(idx, divider) {
-    let newSlice = Object.assign({}, this.state.slices[idx]);
-    newSlice.divider = divider;
+    let newSlice = SliceModel.clone(this.state.slices[idx]);
+    newSlice.divider = parseInt(divider, 10);
     const slices = [...this.state.slices.slice(0, idx), newSlice, ...this.state.slices.slice(idx + 1)];
     this.setState({
       slices
     });
   }
 
-  onSetEditing(editIndex) {
-    let slices = [];
-    let activeSlice = {};
-    this.state.slices.forEach((sliceModel, index) => {
-      let newSlice = SliceModel.clone(sliceModel);
-
-      if(index === editIndex) {
-        newSlice.isEditing = !newSlice.isEditing;
-        newSlice.isShown = true;
-        activeSlice = newSlice;
-      }
-      else {
-        newSlice.isEditing = false;
-      }
-      slices.push(newSlice);
-    });
-
+  onSetEditing(activeSliceIndex) {
     this.setState({
-      slices,
-      activeSlice
+      activeSliceIndex
     });
   }
 
@@ -61,7 +44,7 @@ class App extends Component {
     let slices = [];
     this.state.slices.forEach((sliceModel, index) => {
       let newSlice = SliceModel.clone(sliceModel);
-      if (index === viewIndex && !sliceModel.isEditing)
+      if (index === viewIndex && viewIndex !== this.state.activeSliceIndex)
         newSlice.isShown = !newSlice.isShown;
       slices.push(newSlice);
     });
@@ -90,7 +73,11 @@ class App extends Component {
           <div className="sliceList">
             <div>
               {this.state.slices.map((elem, idx) => {
-                return (<Slice key={elem.key} index={idx} sliceModel={elem}
+                return (<Slice
+                          key={elem.key}
+                          index={idx}
+                          sliceModel={elem}
+                          isActive={idx === this.state.activeSliceIndex}
                           onDividerChanged={this.onDividerChanged.bind(this)}
                           onToggleView={this.onToggleView.bind(this)}
                           onSetEditing={this.onSetEditing.bind(this)}
@@ -99,7 +86,7 @@ class App extends Component {
             </div>
             <button onClick={this.addSlice.bind(this)}>Add a slice</button>
           </div>
-          <Preview activeSlice={this.state.activeSlice} />
+          <Preview activeSlice={this.state.activeSliceIndex !== null ? this.state.slices[this.state.activeSliceIndex] : {}} />
           <div className="toolbox">
             toolbox
           </div>

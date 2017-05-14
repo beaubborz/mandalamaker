@@ -21,7 +21,7 @@ class Slice extends Component {
 
   render() {
     return (
-      <div className={"slice " + (this.props.sliceModel.isEditing ? "active" : "")}>
+      <div className={"slice " + (this.props.isActive ? "active" : "")}>
         <h3>Slice {this.props.index + 1}</h3>
         <div>
           <span>Divider: </span>
