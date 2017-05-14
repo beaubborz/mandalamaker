@@ -56,8 +56,16 @@ class App extends Component {
 
   onRemoveSlice(idx) {
     const slices = [...this.state.slices.slice(0, idx), ...this.state.slices.slice(idx + 1)];
+    // adjust the active slice index now that one of the slice was removed.
+    let activeSliceIndex = this.state.activeSliceIndex;
+    if(idx < this.state.activeSliceIndex)
+      activeSliceIndex--;
+    else if(idx === this.state.activeSliceIndex)
+      activeSliceIndex = null;
+
     this.setState({
-      slices
+      slices,
+      activeSliceIndex
     });
   }
 

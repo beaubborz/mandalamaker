@@ -28,6 +28,7 @@ class Preview extends Component {
     // This function will draw a gray overlay to identify the area in which the user can draw.
   drawEditableAreaOverlay(ctx) {
     // do not draw any area if we are not editing at all.
+    debugger;
     if(this.props.activeSlice === {})
       return;
     // if divider is 1, there is no area to draw.
