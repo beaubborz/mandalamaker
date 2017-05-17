@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Helpers from './Helpers';
 import Slice from './Components/Slice/Slice';
 import SliceModel from './Models/SliceModel';
 import Preview from './Components/Preview/Preview';
 import Toolbox from './Components/Tools/Toolbox';
+import History from './Components/History/History';
 
 let sliceKey = 0;
 
@@ -14,6 +16,9 @@ class App extends Component {
     this.state = {
       slices: [],
       activeSliceIndex: null,
+      activeTool: {},
+      commandStack: [], // used for do/undo of commands
+      lastCommand: 0, // index of the last command to be run (or the command to undo)
     };
   }
 
@@ -69,6 +74,25 @@ class App extends Component {
     });
   }
 
+  onToolSelected(tool) {
+    this.setState({
+      activeTool: tool
+    });
+  }
+
+  onToolUsed() {
+    if(!Helpers.isEmptyObject(this.state.activeTool))
+    {
+      const commandStack = [...this.state.commandStack.slice(0, this.state.lastCommand + 1), this.state.activeTool.getCommand()];
+      const lastCommand = Math.max(0, commandStack.length - 1);
+      this.setState({
+        commandStack,
+        lastCommand
+      });
+      commandStack[lastCommand].do();
+    }
+  }
+
   render() {
     return (
       <div className="App">
@@ -94,8 +118,12 @@ class App extends Component {
             </div>
             <button onClick={this.addSlice.bind(this)}>Add a slice</button>
           </div>
-          <Preview activeSlice={this.state.activeSliceIndex !== null ? this.state.slices[this.state.activeSliceIndex] : {}} />
-          <Toolbox />
+          <Preview activeSlice={this.state.activeSliceIndex !== null ? this.state.slices[this.state.activeSliceIndex] : {}}
+                   onToolUsed={this.onToolUsed.bind(this)} />
+          <Toolbox activeTool={this.state.activeTool}
+                   onToolSelected={this.onToolSelected.bind(this)} />
+          <History commandStack={this.state.commandStack}
+                   lastCommand={this.state.lastCommand}/>
         </div>
       </div>
     );

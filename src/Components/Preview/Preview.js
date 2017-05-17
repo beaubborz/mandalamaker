@@ -75,10 +75,16 @@ class Preview extends Component {
     });
   }
 
+// The user clicked on the canvas.
+  onToolUsed() {
+    this.props.onToolUsed();
+  }
+
   render() {
     return (
       <canvas ref="canvas" width={SIZE} height={SIZE} style={{width:SIZE, height:SIZE}}
-      onWheel={this.adjustZoom.bind(this)}></canvas>
+      onWheel={this.adjustZoom.bind(this)}
+      onClick={this.onToolUsed.bind(this)}></canvas>
     );
   }
 

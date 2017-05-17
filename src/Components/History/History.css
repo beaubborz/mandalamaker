@@ -1,0 +1,26 @@
+.History
+{
+  width:20%;
+  display:inline-block;
+  background-color: #121212;
+  margin-bottom: 30px;
+  float:left;
+  text-align: left;
+}
+
+.History h3 {
+  color:white;
+}
+
+.History>div
+{
+  background-color: #AAAAAA;
+  padding: 5px;
+  margin: 3px;
+  border: 1px solid white;
+}
+
+.History>div.active
+{
+  background-color: yellow;
+}

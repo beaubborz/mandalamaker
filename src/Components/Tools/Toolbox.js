@@ -11,22 +11,20 @@ class Toolbox extends Component {
     this.state = {
       tools: [
         LineTool.create()
-      ],
-      activeTool: {}
+      ]
     };
   }
 
   onToolSelected(event) {
+    let activeTool = {};
     // locate the tool by name:
     this.state.tools.forEach((elem)=>{
       if(elem.name === event.target.id)
         {
-          // Set it as the active tool
-          this.setState({
-            activeTool: elem
-          });
+          activeTool = elem;
         }
     });
+    this.props.onToolSelected(activeTool);
   }
 
   render() {
@@ -36,7 +34,7 @@ class Toolbox extends Component {
         {this.state.tools.map((tool) => {
           return (<button key={toolKey++}
                           id={tool.name}
-                          className={tool.name === this.state.activeTool.name ? 'active' : ''}
+                          className={tool.name === this.props.activeTool.name ? 'active' : ''}
                           onClick={this.onToolSelected.bind(this)}>
                   </button>);
         })}
